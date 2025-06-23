@@ -1,0 +1,10 @@
+services:
+  webwatcher:
+    image: webwatcher
+    container_name: webwatcher
+    environment:
+      - WATCH_URLS=https://xxx
+      - WATCH_INTERVAL=300
+      - TELEGRAM_TOKEN=xxx
+      - TELEGRAM_CHAT_ID=xxx
+    restart: unless-stopped
