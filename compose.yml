@@ -1,6 +1,6 @@
 services:
   webwatcher:
-    image: webwatcher
+    image: scazadar/webwatcher
     container_name: webwatcher
     environment:
       - WATCH_URLS=https://xxx
