@@ -21,8 +21,7 @@
 - Telegram-Bot created via `@BotFather`
 - Telegram-Chat-ID (Telegram Chat with Bot or Group)
 <details>
-<summary>How to Set Up Telegram Notifications for Any Application or Script</summary>
-# 📡 How to Set Up Telegram Notifications for Any Application or Script
+<summary>📡 How to Set Up Telegram Notifications for Any Application or Script</summary>
 
 This guide explains how to:
 
