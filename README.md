@@ -1,29 +1,96 @@
 # 📘 WebWatcher
 
-## 🔍 Website-Monitoring mit Telegram-Benachrichtigung (Docker)
+## 🔍 WebWatcher – Website Monitoring with Telegram Alerts
 
-Dieses Projekt überwacht eine oder mehrere Webseiten regelmäßig auf Inhaltsänderungen und sendet bei einer Änderung eine Nachricht via Telegram.
+**WebWatcher** is a lightweight Docker-based tool for monitoring website content. It regularly checks one or more URLs for content changes and sends Telegram alerts when differences are detected.
 
 ---
 
 ## 🚀 Features
 
-- Überwachung beliebig vieler Webseiten per URL
-- Änderungserkennung über SHA256-Hash des Inhalts
-- Telegram-Benachrichtigung bei Änderungen
-- Docker-basiert: portabel und leicht einsetzbar
+- Monitor multiple websites with ease
+- Change detection using SHA256 hash of HTML content
+- Telegram notifications on change
+- Fully configurable via environment variables
 
 ---
 
-## 📦 Voraussetzungen
+## 📦 Prerequisites
 
-- Docker installiert
-- Telegram-Bot erstellt via `@BotFather`
-- Telegram-Chat-ID (von deinem Chat mit dem Bot)
+- Docker installed
+- Telegram-Bot created via `@BotFather`
+- Telegram-Chat-ID (Telegram Chat with Bot or Group)
+<details>
+<summary>How to Set Up Telegram Notifications for Any Application or Script</summary>
+# 📡 How to Set Up Telegram Notifications for Any Application or Script
+
+This guide explains how to:
+
+- ✅ Create a Telegram bot
+- ➕ Add the bot to a private or group chat
+- 📬 Send notifications via Telegram from any app or script
 
 ---
 
-## ⚙️ Umgebungsvariablen
+## 1. 🤖 Create a Telegram Bot
+
+1. Open Telegram and search for [@BotFather](https://t.me/BotFather)
+2. Type: `/newbot`
+3. Follow the steps to set a name and username (username must end in `bot`)
+4. Copy the **API token** provided — this is required to send messages
+
+---
+
+## 2. 👤 Get Your Chat ID
+
+To send messages to yourself or a group, you need a **chat ID**.
+
+### For a private chat:
+1. Send any message (e.g., "hello") to your bot
+2. Visit the following URL (replace `<TOKEN>` with your bot's token):
+   ```
+   https://api.telegram.org/bot<TOKEN>/getUpdates
+   ```
+3. Look for `"chat":{"id":YOUR_ID,...}` in the JSON response — that's your chat ID
+
+### For a group chat:
+1. Create a Telegram group
+2. Add your bot to the group
+3. Send a message in the group
+4. Visit the same URL again and find the group `"chat":{"id":-XXXXXXXXXX,...}`  
+   (Note: group IDs are negative numbers)
+
+
+## 3. 🖼️ Optional: Set a Bot Profile Picture
+
+1. Go back to **@BotFather**
+2. Type `/setuserpic`
+3. Choose your bot
+4. Upload a square image (JPG or PNG)
+
+---
+
+## 4. 🔐 Who Can Receive Messages?
+
+- Your bot **can only send messages to chats** it has been part of
+- **Users must start a chat** with the bot or be in a group the bot is added to
+- The bot **cannot message random users**
+
+---
+
+## ✅ Done!
+
+You now have:
+
+- 📬 Telegram notifications from any script, app, or automation
+- 📢 Group or private alerts
+
+</details>
+
+
+---
+
+## ⚙️ Environment Variables
 
 | Variable             | Beschreibung                                                                 |
 |----------------------|------------------------------------------------------------------------------|
@@ -50,3 +117,74 @@ docker run -d \
   -e TELEGRAM_CHAT_ID=123456789 \
   webwatcher
 ```
+
+
+
+
+
+
+# 🕵️ WebWatcher – Website Monitoring with Telegram Alerts
+
+**WebWatcher** is a lightweight Docker-based tool for monitoring website content. It regularly checks one or more URLs for content changes and sends Telegram alerts when differences are detected.
+
+---
+
+## ✅ Features
+
+- Monitor multiple websites with ease
+- Change detection using SHA256 hash of HTML content
+- Telegram notifications on change
+- Fully configurable via environment variables
+
+---
+
+## 🛠️ Usage
+
+```bash
+docker run -d \
+  --name webwatcher \
+  -e WATCH_URLS="https://example.com,https://example.org/page" \
+  -e WATCH_INTERVAL=300 \
+  -e TELEGRAM_TOKEN=your_bot_token \
+  -e TELEGRAM_CHAT_ID=your_chat_id \
+  scazadar/webwatcher:latest
+```
+
+---
+
+## 🔧 Environment Variables
+
+| Variable             | Description                                                                 |
+|----------------------|-----------------------------------------------------------------------------|
+| `WATCH_URLS`         | Comma-separated list of URLs to monitor                                     |
+| `WATCH_INTERVAL`     | Interval in seconds between checks (default: `300`)                         |
+| `TELEGRAM_TOKEN`     | Telegram bot token (created via `@BotFather`)                               |
+| `TELEGRAM_CHAT_ID`   | Chat ID to send notifications to                                            |
+
+---
+
+## 📝 Notes
+
+- Only works with publicly accessible websites
+- Works with static HTML pages (no JavaScript rendering)
+
+---
+
+## 📦 Example with `docker-compose`
+
+```yaml
+version: '3'
+
+services:
+  webwatcher:
+    image: scazadar/webwatcher:latest
+    environment:
+      WATCH_URLS: "https://example.com,https://example.org"
+      WATCH_INTERVAL: 300
+      TELEGRAM_TOKEN: "your_bot_token"
+      TELEGRAM_CHAT_ID: "your_chat_id"
+```
+
+---
+
+For contributions or questions: [View GitHub Project](https://github.com/scazadar/webwatcher)
