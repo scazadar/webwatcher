@@ -28,7 +28,6 @@ def send_telegram_message(text):
 def monitor():
     hashes = {}
 
-    # Initiale Hashes laden
     for url in URLS:
         h = get_website_hash(url)
         if h:
