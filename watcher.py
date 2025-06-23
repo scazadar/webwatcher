@@ -14,7 +14,7 @@ def get_website_hash(url):
         content = response.text
         return hashlib.sha256(content.encode('utf-8')).hexdigest()
     except Exception as e:
-        print(f"[{url}] Fehler beim Abrufen: {e}")
+        print(f"[{url}] Error fetching content: {e}")
         return None
 
 def send_telegram_message(text):
@@ -23,7 +23,7 @@ def send_telegram_message(text):
     try:
         requests.post(url, data=payload)
     except Exception as e:
-        print(f"Fehler beim Senden an Telegram: {e}")
+        print(f"Error sending message to Telegram: {e}")
 
 def monitor():
     hashes = {}
@@ -33,24 +33,24 @@ def monitor():
         h = get_website_hash(url)
         if h:
             hashes[url] = h
-            print(f"[{url}] Initialer Hash gespeichert.")
+            print(f"[{url}] Initial hash stored.")
         else:
-            print(f"[{url}] Fehler beim initialen Hash.")
+            print(f"[{url}] Could not get initial hash.")
 
-    print("⏳ Überwachung gestartet...")
+    print("⏳ Monitoring started...")
     while True:
         time.sleep(INTERVAL)
         for url in URLS:
             current_hash = get_website_hash(url)
             if current_hash and current_hash != hashes.get(url):
-                print(f"[{url}] Änderung erkannt!")
-                send_telegram_message(f"Inhalt von {url} hat sich geändert!")
+                print(f"[{url}] Change detected!")
+                send_telegram_message(f"Content of {url} has changed!")
                 hashes[url] = current_hash
             else:
-                print(f"[{url}] Keine Änderung.")
+                print(f"[{url}] No change.")
 
 if __name__ == "__main__":
     if not URLS:
-        print("⚠️  Keine gültigen URLs in WATCH_URLS gefunden.")
+        print("⚠️  No valid URLs found in WATCH_URLS.")
     else:
         monitor()
